@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart.js Library</title>
+</head>
+<body>
+    <p>Using Chart.js CDN in index.html instead of local file.</p>
+    <p>Chart.js 4.4.1 from CDN: https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js</p>
+</body>
+</html>

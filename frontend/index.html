@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANCH - Sistema de Lanchonete Hospitalar</title>
+    <meta name="description"
+        content="Sistema de gestão para lanchonete hospitalar com suporte a convênio de funcionários">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/pagination.css">
+    <link rel="stylesheet" href="css/password-strength.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo">
+                        <span class="logo-icon">🍔</span>
+                        <h1>LANCH</h1>
+                    </div>
+                    <p class="subtitle">Sistema de Lanchonete Hospitalar</p>
+                </div>
+
+                <form id="login-form" class="login-form" role="form" aria-labelledby="login-title">
+                    <h2 id="login-title" class="sr-only">Formulário de Login</h2>
+                    <div class="form-group">
+                        <label for="username">Usuário</label>
+                        <input type="text" id="username" name="username" required placeholder="Digite seu usuário"
+                            aria-label="Nome de usuário" aria-required="true" autocomplete="username" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" required placeholder="Digite sua senha"
+                            aria-label="Senha" aria-required="true" autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" aria-label="Entrar no sistema">
+                        <span>Entrar</span>
+                    </button>
+                </form>
+
+                <div id="login-error" class="error-message hidden" role="alert" aria-live="polite"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <span class="logo-icon">🍔</span>
+                    <span>LANCH</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" role="navigation" aria-label="Navegação principal">
+                <a href="#" class="nav-item active" data-page="dashboard" aria-label="Ir para Dashboard"
+                    aria-current="page">
+                    <span class="nav-icon" aria-hidden="true">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="pedidos" aria-label="Ir para Novo Pedido">
+                    <span class="nav-icon" aria-hidden="true">🛒</span>
+                    <span class="nav-text">Novo Pedido</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="produtos" aria-label="Ir para Produtos">
+                    <span class="nav-icon" aria-hidden="true">🍕</span>
+                    <span class="nav-text">Produtos</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="estoque" aria-label="Ir para Estoque">
+                    <span class="nav-icon" aria-hidden="true">📦</span>
+                    <span class="nav-text">Estoque</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="caixa" aria-label="Ir para Caixa">
+                    <span class="nav-icon" aria-hidden="true">💰</span>
+                    <span class="nav-text">Caixa</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="funcionarios" aria-label="Ir para Funcionários">
+                    <span class="nav-icon" aria-hidden="true">👥</span>
+                    <span class="nav-text">Funcionários</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="setores" aria-label="Ir para Setores">
+                    <span class="nav-icon" aria-hidden="true">🏢</span>
+                    <span class="nav-text">Setores</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="competencias" aria-label="Ir para Competências">
+                    <span class="nav-icon" aria-hidden="true">📅</span>
+                    <span class="nav-text">Competências</span>
+                </a>
+                <a href="#" class="nav-item admin-only" data-page="relatorios" aria-label="Ir para Relatórios">
+                    <span class="nav-icon" aria-hidden="true">📈</span>
+                    <span class="nav-text">Relatórios</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span id="user-name">Usuário</span>
+                    <span id="user-role" class="user-role">PERFIL</span>
+                </div>
+                <button id="logout-btn" class="btn btn-outline btn-sm" data-tooltip="Sair do sistema">Sair</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="page-dashboard" class="page active">
+                <header class="page-header">
+                    <h2>Dashboard</h2>
+                    <span class="page-date" id="current-date"></span>
+                </header>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">🛒</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-pedidos">0</span>
+                            <span class="stat-label">Pedidos Hoje</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">⏳</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-pendentes">0</span>
+                            <span class="stat-label">Pendentes</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">💰</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-faturamento">R$ 0,00</span>
+                            <span class="stat-label">Faturamento</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">👥</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-funcionarios">R$ 0,00</span>
+                            <span class="stat-label">Convênio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-row">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Últimos Pedidos</h3>
+                            <a href="#" class="link" data-page="pedidos">Ver todos</a>
+                        </div>
+                        <div class="card-body">
+                            <table class="table" id="ultimos-pedidos">
+                                <thead>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Tipo</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="dashboard-row" style="margin-top: 2rem;">
+                    <div class="card" style="flex: 2;">
+                        <div class="card-header">
+                            <h3>Vendas dos Últimos 7 Dias</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="sales-chart" height="80"></canvas>
+                        </div>
+                    </div>
+                    <div class="card" style="flex: 1;">
+                        <div class="card-header">
+                            <h3>Formas de Pagamento</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="payment-chart" height="160"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-row" style="margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Produtos Mais Vendidos</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="products-chart" height="80"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Novo Pedido Page -->
+            <div id="page-pedidos" class="page">
+                <header class="page-header">
+                    <h2>Novo Pedido</h2>
+                </header>
+
+                <div class="order-container">
+                    <!-- Customer Type Selection -->
+                    <div class="order-step" id="step-cliente">
+                        <h3>Tipo de Cliente</h3>
+                        <div class="customer-type-buttons">
+                            <button class="customer-type-btn" data-type="FUNCIONARIO">
+                                <span class="btn-icon">🏥</span>
+                                <span class="btn-label">Funcionário</span>
+                                <span class="btn-desc">Pagamento via convênio</span>
+                            </button>
+                            <button class="customer-type-btn" data-type="PACIENTE">
+                                <span class="btn-icon">👤</span>
+                                <span class="btn-label">Paciente / Visitante</span>
+                                <span class="btn-desc">Pagamento imediato</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Employee Identification -->
+                    <div class="order-step hidden" id="step-funcionario">
+                        <h3>Identificar Funcionário</h3>
+                        <div class="employee-search">
+                            <div class="form-group">
+                                <label>Matrícula ou CPF</label>
+                                <div class="search-input-group">
+                                    <input type="text" id="funcionario-busca" placeholder="Digite a matrícula ou CPF">
+                                    <button type="button" id="btn-buscar-func" class="btn btn-primary">Buscar</button>
+                                </div>
+                            </div>
+                            <div id="funcionario-info" class="employee-info hidden">
+                                <div class="employee-card">
+                                    <div class="employee-name" id="func-nome"></div>
+                                    <div class="employee-details">
+                                        <span id="func-matricula"></span>
+                                        <span id="func-setor"></span>
+                                    </div>
+                                    <div class="employee-limit">
+                                        <span>Saldo disponível:</span>
+                                        <span id="func-saldo" class="saldo"></span>
+                                    </div>
+                                </div>
+                                <button type="button" id="btn-confirmar-func" class="btn btn-success">Confirmar</button>
+                            </div>
+                            <div id="funcionario-error" class="error-message hidden"></div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-back">Voltar</button>
+                    </div>
+
+                    <!-- Products Selection -->
+                    <div class="order-step hidden" id="step-produtos">
+                        <h3>Adicionar Produtos</h3>
+
+                        <div class="products-container">
+                            <div class="products-grid">
+                                <div class="categories-filter" id="categories-filter"></div>
+                                <div class="products-list" id="products-list"></div>
+                            </div>
+
+                            <div class="order-summary">
+                                <h4>Resumo do Pedido</h4>
+                                <div class="order-customer" id="order-customer"></div>
+                                <div class="order-items" id="order-items">
+                                    <p class="empty-cart">Nenhum item adicionado</p>
+                                </div>
+                                <div class="order-total">
+                                    <span>Total:</span>
+                                    <span id="order-total">R$ 0,00</span>
+                                </div>
+
+                                <!-- Payment for patients -->
+                                <div id="payment-section" class="hidden">
+                                    <h4>Forma de Pagamento</h4>
+                                    <div class="payment-options">
+                                        <label class="payment-option">
+                                            <input type="radio" name="forma_pagamento" value="PIX">
+                                            <span>Pix</span>
+                                        </label>
+                                        <label class="payment-option">
+                                            <input type="radio" name="forma_pagamento" value="CARTAO">
+                                            <span>Cartão</span>
+                                        </label>
+                                        <label class="payment-option">
+                                            <input type="radio" name="forma_pagamento" value="DINHEIRO">
+                                            <span>Dinheiro</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Observação</label>
+                                    <textarea id="order-obs" placeholder="Observações do pedido..."></textarea>
+                                </div>
+
+                                <button type="button" id="btn-finalizar" class="btn btn-success btn-block" disabled
+                                    data-tooltip="Adicione itens ao pedido">
+                                    Finalizar Pedido
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-outline btn-back">Voltar</button>
+                    </div>
+
+                    <!-- Order Confirmation -->
+                    <div class="order-step hidden" id="step-confirmacao">
+                        <div class="order-success">
+                            <div class="success-icon">✅</div>
+                            <h3>Pedido Realizado!</h3>
+                            <p class="order-number">Número: <strong id="confirm-numero"></strong></p>
+                            <p class="order-message" id="confirm-message"></p>
+                            <button type="button" id="btn-print-receipt" class="btn btn-outline">Imprimir Cupom
+                                🖨️</button>
+                            <button type="button" id="btn-novo-pedido" class="btn btn-primary">Novo Pedido</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cozinha Page -->
+            <div id="page-cozinha" class="page">
+                <header class="page-header">
+                    <h2>Tela da Cozinha</h2>
+                    <button id="btn-refresh-kitchen" class="btn btn-outline btn-sm"
+                        data-tooltip="Atualizar pedidos da cozinha">🔄 Atualizar</button>
+                </header>
+
+                <div class="kitchen-grid" id="kitchen-orders"></div>
+            </div>
+
+            <!-- Produtos Page (Admin) -->
+            <div id="page-produtos" class="page">
+                <header class="page-header">
+                    <h2>Gerenciar Produtos</h2>
+                    <button id="btn-novo-produto" class="btn btn-primary" data-tooltip="Cadastrar novo produto">+ Novo
+                        Produto</button>
+                </header>
+
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table" id="produtos-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funcionários Page (Admin) -->
+            <div id="page-funcionarios" class="page">
+                <header class="page-header">
+                    <h2>Gerenciar Funcionários</h2>
+                    <button id="btn-novo-funcionario" class="btn btn-primary"
+                        data-tooltip="Cadastrar novo funcionário">+ Novo Funcionário</button>
+                </header>
+
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table" id="funcionarios-table">
+                            <thead>
+                                <tr>
+                                    <th>Matrícula</th>
+                                    <th>Nome</th>
+                                    <th>Setor</th>
+                                    <th>Limite</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competências Page (Admin) -->
+            <div id="page-competencias" class="page">
+                <header class="page-header">
+                    <h2>Competências Mensais</h2>
+                </header>
+
+                <div class="competencia-atual card" id="competencia-atual">
+                    <div class="card-header">
+                        <h3>Competência Atual</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="competencia-info"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Histórico de Competências</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="competencias-table">
+                            <thead>
+                                <tr>
+                                    <th>Competência</th>
+                                    <th>Funcionários</th>
+                                    <th>Valor Total</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Relatórios Page (Admin) -->
+            <div id="page-relatorios" class="page">
+                <header class="page-header">
+                    <h2>Relatórios</h2>
+                </header>
+
+                <div class="reports-grid">
+                    <div class="report-card" data-report="vendas-diarias">
+                        <div class="report-icon">📊</div>
+                        <h4>Vendas Diárias</h4>
+                        <p>Relatório de vendas por dia</p>
+                    </div>
+                    <div class="report-card" data-report="formas-pagamento">
+                        <div class="report-icon">💳</div>
+                        <h4>Formas de Pagamento</h4>
+                        <p>Distribuição por forma de pagamento</p>
+                    </div>
+                    <div class="report-card" data-report="produtos-vendidos">
+                        <div class="report-icon">🍕</div>
+                        <h4>Produtos Vendidos</h4>
+                        <p>Ranking de produtos mais vendidos</p>
+                    </div>
+                    <div class="report-card" data-report="consumo-funcionarios">
+                        <div class="report-icon">👥</div>
+                        <h4>Consumo Funcionários</h4>
+                        <p>Consumo por funcionário</p>
+                    </div>
+                </div>
+
+                <div id="report-content" class="card hidden">
+                    <div class="card-header">
+                        <h3 id="report-title"></h3>
+                        <button class="btn btn-outline btn-sm" id="btn-close-report">Fechar</button>
+                    </div>
+                    <div class="card-body" id="report-data"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title"></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer" id="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Receipt Container (Print Only) -->
+    <div id="receipt-area" class="receipt-area hidden"></div>
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <script src="js/validators.js"></script>
+    <script src="js/loading.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/shortcuts.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/password-strength.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('SW registered:', reg))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>

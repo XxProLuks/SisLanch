@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: lanch-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist database
+      - ./database:/app/database
+      # Persist logs
+      - ./logs:/app/logs
+      # Optional: Mount source code for hot reload during dev (comment out in production)
+      # - ./backend:/app/backend
+    environment:
+      # Load from .env file
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG:-False}
+      - DATABASE_URL=sqlite:///../database/lanch.db
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    networks:
+      - lanch-network
+
+networks:
+  lanch-network:
+    driver: bridge

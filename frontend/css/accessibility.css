@@ -1,0 +1,120 @@
+/* Screen reader only class for accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Skip to main content link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #0000FF;
+        --success: #006400;
+        --warning: #FF8C00;
+        --danger: #DC143C;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Keyboard navigation improvements */
+.btn:focus-visible,
+.nav-item:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Better focus indicators for custom controls */
+.customer-type-btn:focus-visible,
+.payment-option:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* Loading states with aria-busy */
+[aria-busy="true"] {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+/* Status indicators with proper contrast */
+.status-badge[aria-label] {
+    font-weight: 500;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Error messages with clear visibility */
+.error-message,
+.field-error {
+    color: var(--danger);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.error-message::before,
+.field-error::before {
+    content: "⚠";
+    font-size: 1.2em;
+}
+
+/* Success messages */
+[role="alert"].success {
+    background: var(--success-bg);
+    border-left: 4px solid var(--success);
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+/* Loading indicators */
+[role="status"] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}

@@ -1,0 +1,44 @@
+{
+    "name": "LANCH - Sistema de Lanchonete Hospitalar",
+    "short_name": "LANCH",
+    "description": "Sistema de gestão para lanchonete hospitalar com suporte a convênio de funcionários",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#2563eb",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "business",
+        "productivity",
+        "food"
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "Novo Pedido",
+            "short_name": "Pedido",
+            "description": "Criar um novo pedido",
+            "url": "/index.html#pedidos"
+        },
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "Ver dashboard principal",
+            "url": "/index.html#dashboard"
+        },
+        {
+            "name": "Cozinha",
+            "short_name": "Cozinha",
+            "description": "Tela da cozinha",
+            "url": "/index.html#cozinha"
+        }
+    ]
+}
