@@ -1,24 +1,39 @@
 /* ============================================
    LANCH - Sistema de Lanchonete Hospitalar
-   Main Stylesheet
+   Main Stylesheet - Modern Hospital Theme
    ============================================ */
 
 /* ============================================
    CSS Variables & Design Tokens
    ============================================ */
 :root {
-    /* Colors */
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-light: #3b82f6;
-    --secondary: #64748b;
+    /* Primary Colors - Teal/Emerald Hospital Theme */
+    --primary: #0d9488;
+    --primary-dark: #0f766e;
+    --primary-light: #14b8a6;
+    --primary-glow: rgba(13, 148, 136, 0.15);
+
+    /* Secondary - Deep Blue */
+    --secondary: #0ea5e9;
+    --secondary-dark: #0284c7;
+    --secondary-light: #38bdf8;
+
+    /* Accent - Vibrant Purple */
+    --accent: #8b5cf6;
+    --accent-dark: #7c3aed;
+    --accent-light: #a78bfa;
+
+    /* Status Colors */
     --success: #10b981;
     --success-dark: #059669;
+    --success-light: #34d399;
     --warning: #f59e0b;
+    --warning-dark: #d97706;
     --danger: #ef4444;
+    --danger-dark: #dc2626;
     --info: #06b6d4;
 
-    /* Neutrals */
+    /* Neutrals - Slate palette */
     --white: #ffffff;
     --gray-50: #f8fafc;
     --gray-100: #f1f5f9;
@@ -31,20 +46,25 @@
     --gray-800: #1e293b;
     --gray-900: #0f172a;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%);
+    --gradient-secondary: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+    --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 
-    /* Shadows */
+    /* Enhanced Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 20px rgba(13, 148, 136, 0.3);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
 
-    /* Typography */
+    /* Typography - Using system fonts for performance */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
@@ -53,6 +73,7 @@
     --font-size-xl: 1.25rem;
     --font-size-2xl: 1.5rem;
     --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
 
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -62,20 +83,22 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
 
-    /* Border Radius */
-    --radius-sm: 0.25rem;
+    /* Border Radius - More rounded for modern feel */
+    --radius-sm: 0.375rem;
     --radius: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
     --radius-full: 9999px;
 
     /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-base: 200ms ease;
-    --transition-slow: 300ms ease;
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     /* Layout */
-    --sidebar-width: 260px;
+    --sidebar-width: 280px;
     --header-height: 64px;
 }
 
@@ -429,13 +452,14 @@ textarea {
    ============================================ */
 .sidebar {
     width: var(--sidebar-width);
-    background: var(--gray-900);
+    background: var(--gradient-dark);
     color: var(--white);
     display: flex;
     flex-direction: column;
     position: fixed;
     height: 100vh;
     z-index: 100;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .sidebar-header {
@@ -473,7 +497,8 @@ textarea {
 
 .nav-item.active {
     color: var(--white);
-    background: var(--primary);
+    background: var(--gradient-primary);
+    border-left: 3px solid var(--primary-light);
 }
 
 .nav-icon {
@@ -581,19 +606,19 @@ textarea {
 }
 
 .stat-icon.blue {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: var(--gradient-primary);
 }
 
 .stat-icon.green {
-    background: linear-gradient(135deg, #11998e, #38ef7d);
+    background: var(--gradient-success);
 }
 
 .stat-icon.orange {
-    background: linear-gradient(135deg, #f093fb, #f5576c);
+    background: var(--gradient-warning);
 }
 
 .stat-icon.purple {
-    background: linear-gradient(135deg, #a855f7, #6366f1);
+    background: var(--gradient-purple);
 }
 
 .stat-value {
