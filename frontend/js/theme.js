@@ -1,17 +1,17 @@
 /**
- * Dark Mode Theme Manager
+ * Dark Mode Theme Manager - Hospital Modern Theme
  */
 
 class ThemeManager {
     constructor() {
         this.currentTheme = this.getStoredTheme() || this.getSystemTheme();
         this.applyTheme(this.currentTheme);
-        this.createToggle();
+        this.setupToggle();
         this.setupSystemListener();
     }
 
     getStoredTheme() {
-        return localStorage.getItem('theme');
+        return localStorage.getItem('lanch-theme');
     }
 
     getSystemTheme() {
@@ -21,40 +21,45 @@ class ThemeManager {
     applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         this.currentTheme = theme;
-        localStorage.setItem('theme', theme);
-        this.updateToggleIcon();
+        localStorage.setItem('lanch-theme', theme);
+        this.updateToggleUI();
     }
 
     toggle() {
         const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
         this.applyTheme(newTheme);
+
+        // Add nice animation feedback
+        document.body.classList.add('theme-transition');
+        setTimeout(() => {
+            document.body.classList.remove('theme-transition');
+        }, 300);
     }
 
-    createToggle() {
-        // Criar botão de toggle no sidebar
-        const sidebar = document.querySelector('.sidebar-footer');
-        if (!sidebar) return;
-
-        const toggle = document.createElement('button');
-        toggle.id = 'theme-toggle';
-        toggle.className = 'btn btn-outline btn-sm';
-        toggle.style.marginTop = '0.5rem';
-        toggle.setAttribute('data-tooltip', 'Alternar tema escuro/claro');
-        toggle.addEventListener('click', () => this.toggle());
-
-        sidebar.appendChild(toggle);
-        this.updateToggleIcon();
-    }
-
-    updateToggleIcon() {
+    setupToggle() {
+        // Use existing toggle button in sidebar
         const toggle = document.getElementById('theme-toggle');
-        if (!toggle) return;
+        if (toggle) {
+            toggle.addEventListener('click', () => this.toggle());
+            this.updateToggleUI();
+        }
+    }
 
-        toggle.innerHTML = this.currentTheme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+    updateToggleUI() {
+        const icon = document.getElementById('theme-icon');
+        const text = document.getElementById('theme-text');
+
+        if (icon) {
+            icon.textContent = this.currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+        if (text) {
+            text.textContent = this.currentTheme === 'dark' ? 'Modo Claro' : 'Modo Escuro';
+        }
     }
 
     setupSystemListener() {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // Only auto-switch if user hasn't manually set a preference
             if (!this.getStoredTheme()) {
                 this.applyTheme(e.matches ? 'dark' : 'light');
             }

@@ -1,0 +1,337 @@
+/* ============================================
+   Micro-Animations & Enhanced UX
+   ============================================ */
+
+/* Theme transition */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+    transition: all 0.3s ease !important;
+}
+
+/* Page entrance animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Page animation */
+.page.active {
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card hover effects */
+.stat-card {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Button effects */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.btn:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.4);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Navigation hover effects */
+.nav-item {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--primary-light);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover::before {
+    transform: scaleY(1);
+}
+
+.nav-item.active::before {
+    transform: scaleY(1);
+}
+
+/* Icon animations */
+.nav-icon {
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.15);
+}
+
+/* Stat icon pulse on hover */
+.stat-icon {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Table row animations */
+.table tbody tr {
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.table tbody tr:hover {
+    transform: scale(1.005);
+}
+
+/* Badge animations */
+.badge {
+    transition: all 0.2s ease;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+}
+
+/* Form focus animations */
+input:focus,
+select:focus,
+textarea:focus {
+    transform: scale(1.01);
+}
+
+/* Customer type button hover */
+.customer-type-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.customer-type-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.customer-type-btn:hover .btn-icon {
+    transform: scale(1.2);
+}
+
+.customer-type-btn .btn-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Loading skeleton animation */
+.skeleton {
+    background: linear-gradient(90deg,
+            var(--gray-200) 25%,
+            var(--gray-100) 50%,
+            var(--gray-200) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius);
+}
+
+/* Success checkmark animation */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.success-icon {
+    animation: checkmark 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Logo animation */
+.logo-small {
+    transition: transform 0.3s ease;
+}
+
+.logo-small:hover {
+    transform: scale(1.05);
+}
+
+/* Sidebar footer button */
+.theme-toggle {
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateX(4px);
+}
+
+.theme-toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-toggle-icon {
+    transform: rotate(20deg) scale(1.1);
+}
+
+/* Modal animation */
+.modal {
+    transition: opacity 0.2s ease;
+}
+
+.modal.active {
+    animation: fadeInScale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-content {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toast notification animation */
+.toast {
+    animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Staggered children animation */
+.dashboard-grid>* {
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.dashboard-grid>*:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.dashboard-grid>*:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.dashboard-grid>*:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.dashboard-grid>*:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.dashboard-grid>*:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.dashboard-grid>*:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

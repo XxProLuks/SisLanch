@@ -7,7 +7,7 @@
     <title>LANCH - Sistema de Lanchonete Hospitalar</title>
     <meta name="description"
         content="Sistema de gestão para lanchonete hospitalar com suporte a convênio de funcionários">
-    <meta name="theme-color" content="#2563eb">
+    <meta name="theme-color" content="#0d9488">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/loading.css">
     <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/pagination.css">
     <link rel="stylesheet" href="css/password-strength.css">
     <link rel="stylesheet" href="css/accessibility.css">
@@ -108,6 +109,10 @@
             </nav>
 
             <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
+                    <span class="theme-toggle-icon" id="theme-icon">🌙</span>
+                    <span id="theme-text">Modo Escuro</span>
+                </button>
                 <div class="user-info">
                     <span id="user-name">Usuário</span>
                     <span id="user-role" class="user-role">PERFIL</span>
